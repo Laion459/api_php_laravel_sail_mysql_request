@@ -41,7 +41,7 @@ $user->save();
     /**
      * Display the specified resource.
      */
-    public function show(Users $user)
+    public function show(User $user)
     {
         return $user;
     }
@@ -49,7 +49,7 @@ $user->save();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Users $user)
+    public function update(Request $request, User $user)
     {
         $user->update($request->all());
         return response()->json(['message' => 'User updated successfully', 'user' => $user], 200);
@@ -58,7 +58,7 @@ $user->save();
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Users $user)
+    public function destroy(User $user)
     {
         $user->delete();
         return response()->json(['message' => 'User deleted successfully'], 200);
