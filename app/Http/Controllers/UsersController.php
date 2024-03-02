@@ -63,4 +63,41 @@ $user->save();
         $user->delete();
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
+
+    public function destroyByEmail($email)
+    {
+        // Encontre o usuário pelo email
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        // Exclua o usuário encontrado
+        $user->delete();
+
+        return response()->json(['message' => 'Usuário excluído com sucesso']);
+    }
+
+    public function updateByEmail(Request $request, $email)
+    {
+        // Encontre o usuário pelo email
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        // Valide os dados recebidos na requisição
+        $request->validate([
+            'name' => 'string',
+            'email' => 'email|unique:users,email,' . $user->id,
+            // Adicione aqui as outras regras de validação conforme necessário
+        ]);
+
+        // Atualize os dados do usuário
+        $user->update($request->all());
+
+        return response()->json(['message' => 'Usuário atualizado com sucesso']);
+    }
 }
