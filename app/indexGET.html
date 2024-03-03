@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários</title>
+</head>
+<body>
+    <h1>Lista de Usuários</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- Os dados dos usuários serão inseridos aqui -->
+        </tbody>
+    </table>
+
+    <script>
+        // Função para fazer a solicitação GET para a API e exibir os dados
+        function getUsers() {
+            fetch('http://127.0.0.1:8000/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    // Limpa o corpo da tabela
+                    document.getElementById('userTableBody').innerHTML = '';
+
+                    // Itera sobre cada usuário e adiciona uma nova linha na tabela
+                    users.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                        `;
+                        document.getElementById('userTableBody').appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Erro ao obter usuários:', error));
+        }
+
+        // Chama a função getUsers() uma vez quando a página carregar
+        window.onload = getUsers;
+    </script>
+</body>
+</html>
+

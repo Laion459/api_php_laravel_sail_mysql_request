@@ -100,4 +100,25 @@ $user->save();
 
         return response()->json(['message' => 'Usuário atualizado com sucesso']);
     }
+
+
+    public function getUserDetailsByName($request ,$name)
+    {
+        $user = User::where('name', $name)->first();
+        if (!$user) {
+            return response()->json(['message' => 'Nome não encontrado'], 404);
+        }
+
+        // Valide os dados recebidos na requisição
+        $request->validate([
+            'name' => 'string' . $user->id,
+
+        ]);
+
+        // Exiba os dados do usuário
+        $user->index($request->all());
+
+        return response()->json(['message' => 'Usuário exibido com sucesso']);
+    }
+
 }
